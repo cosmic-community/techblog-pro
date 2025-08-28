@@ -56,11 +56,11 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
       {/* Author Header */}
       <header className="mb-12 text-center">
         {author.metadata?.avatar && (
-          <div className="mb-6">
+          <div className="w-32 h-32 mx-auto mb-6">
             <img 
-              src={`${author.metadata.avatar.imgix_url}?w=200&h=200&fit=crop&auto=format,compress`}
+              src={`${author.metadata.avatar.imgix_url}?w=256&h=256&fit=crop&auto=format,compress`}
               alt={author.metadata?.full_name}
-              className="w-32 h-32 rounded-full mx-auto shadow-lg"
+              className="w-full h-full object-cover rounded-full shadow-lg"
               width={128}
               height={128}
             />
@@ -72,7 +72,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
         </h1>
         
         {author.metadata?.bio && (
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-6">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6">
             {author.metadata.bio}
           </p>
         )}
@@ -115,6 +115,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
         <h2 className="text-3xl font-bold text-gray-900 mb-8">
           Articles by {author.metadata?.full_name}
         </h2>
+        
         {posts.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-gray-600">No posts found by this author.</p>
