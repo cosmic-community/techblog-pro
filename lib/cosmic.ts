@@ -20,7 +20,7 @@ export async function getAllPosts() {
       .depth(1);
     
     // Sort by published date (newest first)
-    const posts = response.objects.sort((a, b) => {
+    const posts = response.objects.sort((a: any, b: any) => {
       const dateA = new Date(a.metadata?.published_date || '').getTime();
       const dateB = new Date(b.metadata?.published_date || '').getTime();
       return dateB - dateA;
@@ -83,7 +83,7 @@ export async function getPostsByCategory(categoryId: string) {
       .depth(1);
     
     // Sort by published date
-    const posts = response.objects.sort((a, b) => {
+    const posts = response.objects.sort((a: any, b: any) => {
       const dateA = new Date(a.metadata?.published_date || '').getTime();
       const dateB = new Date(b.metadata?.published_date || '').getTime();
       return dateB - dateA;
@@ -126,7 +126,7 @@ export async function getPostsByAuthor(authorId: string) {
       .depth(1);
     
     // Sort by published date
-    const posts = response.objects.sort((a, b) => {
+    const posts = response.objects.sort((a: any, b: any) => {
       const dateA = new Date(a.metadata?.published_date || '').getTime();
       const dateB = new Date(b.metadata?.published_date || '').getTime();
       return dateB - dateA;

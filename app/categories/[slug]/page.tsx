@@ -12,7 +12,7 @@ interface CategoryPageProps {
 export async function generateStaticParams() {
   const categories = await getAllCategories()
   
-  return categories.map((category) => ({
+  return categories.map((category: Category) => ({
     slug: category.slug,
   }))
 }
@@ -81,7 +81,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           </div>
         ) : (
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post) => (
+            {posts.map((post: Post) => (
               <PostCard key={post.id} post={post} />
             ))}
           </div>
