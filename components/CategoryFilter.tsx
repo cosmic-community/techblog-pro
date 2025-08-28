@@ -19,13 +19,13 @@ export default function CategoryFilter({ categories }: CategoryFilterProps) {
     <div className="flex flex-wrap gap-3">
       <Link 
         href="/"
-        className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+        className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
           pathname === '/' 
-            ? 'bg-gray-900 text-white' 
-            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            ? 'bg-red-600 text-white shadow-lg transform scale-105' 
+            : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:shadow-md'
         }`}
       >
-        All Posts
+        All Cars
       </Link>
       
       {categories.map((category) => {
@@ -35,12 +35,12 @@ export default function CategoryFilter({ categories }: CategoryFilterProps) {
           <Link 
             key={category.id}
             href={`/categories/${category.slug}`}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+            className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
               isActive 
-                ? 'text-white' 
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ? 'text-white shadow-lg transform scale-105' 
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:shadow-md'
             }`}
-            style={isActive ? { backgroundColor: category.metadata?.color || '#6b7280' } : {}}
+            style={isActive ? { backgroundColor: category.metadata?.color || '#dc2626' } : {}}
           >
             {category.metadata?.name}
           </Link>

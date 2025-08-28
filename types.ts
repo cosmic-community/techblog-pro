@@ -10,23 +10,22 @@ interface CosmicObject {
   modified_at: string;
 }
 
-// Author object interface
-export interface Author extends CosmicObject {
-  type: 'authors';
+// Car brand object interface
+export interface Brand extends CosmicObject {
+  type: 'brands';
   metadata: {
-    full_name: string;
-    bio?: string;
-    avatar?: {
+    name: string;
+    description?: string;
+    logo?: {
       url: string;
       imgix_url: string;
     };
-    email?: string;
-    twitter?: string;
-    linkedin?: string;
+    color?: string;
+    country?: string;
   };
 }
 
-// Category object interface
+// Car category object interface  
 export interface Category extends CosmicObject {
   type: 'categories';
   metadata: {
@@ -36,20 +35,38 @@ export interface Category extends CosmicObject {
   };
 }
 
-// Post object interface
-export interface Post extends CosmicObject {
-  type: 'posts';
+// Car object interface
+export interface Car extends CosmicObject {
+  type: 'cars';
   metadata: {
-    content: string;
-    excerpt?: string;
-    featured_image?: {
+    price: number;
+    year: number;
+    make: string;
+    model: string;
+    engine: string;
+    horsepower: number;
+    top_speed: number;
+    acceleration: string;
+    transmission: string;
+    fuel_type: string;
+    mileage?: number;
+    exterior_color: string;
+    interior_color: string;
+    features: string;
+    description: string;
+    images: {
+      url: string;
+      imgix_url: string;
+    }[];
+    main_image: {
       url: string;
       imgix_url: string;
     };
-    author: Author;
+    brand: Brand;
     category: Category;
-    tags?: string;
-    published_date?: string;
+    condition: 'New' | 'Used' | 'Certified Pre-Owned';
+    availability: 'Available' | 'Sold' | 'Reserved';
+    vin?: string;
   };
 }
 
@@ -62,12 +79,12 @@ export interface CosmicResponse<T> {
 }
 
 // Type guards
-export function isPost(obj: CosmicObject): obj is Post {
-  return obj.type === 'posts';
+export function isCar(obj: CosmicObject): obj is Car {
+  return obj.type === 'cars';
 }
 
-export function isAuthor(obj: CosmicObject): obj is Author {
-  return obj.type === 'authors';
+export function isBrand(obj: CosmicObject): obj is Brand {
+  return obj.type === 'brands';
 }
 
 export function isCategory(obj: CosmicObject): obj is Category {

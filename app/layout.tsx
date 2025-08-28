@@ -7,8 +7,8 @@ import CosmicBadge from '@/components/CosmicBadge'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'TechBlog Pro',
-  description: 'A modern blog platform powered by Cosmic',
+  title: 'Premium Motors - Luxury & Sports Cars',
+  description: 'Discover the finest collection of luxury and sports cars. Premium vehicles for discerning drivers.',
 }
 
 export default function RootLayout({
@@ -25,7 +25,7 @@ export default function RootLayout({
         <script src="/dashboard-console-capture.js" />
       </head>
       <body className={inter.className}>
-        <div className="min-h-screen flex flex-col">
+        <div className="min-h-screen flex flex-col bg-gray-50">
           <Header />
           <main className="flex-grow">
             {children}
