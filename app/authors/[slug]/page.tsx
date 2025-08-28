@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: AuthorPageProps) {
 
   return {
     title: `${author.metadata?.full_name} - TechBlog Pro`,
-    description: author.metadata?.bio || `Posts by ${author.metadata?.full_name}`,
+    description: author.metadata?.bio || `Articles by ${author.metadata?.full_name}`,
   }
 }
 
@@ -44,45 +44,45 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
   const posts = await getPostsByAuthor(author.id) as Post[]
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Back Link */}
       <Link 
         href="/" 
-        className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-8"
+        className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-8 font-medium"
       >
-        ← Back to Blog
+        ← Back to Articles
       </Link>
 
       {/* Author Header */}
-      <header className="mb-12">
-        <div className="flex items-center gap-6 mb-6">
-          {author.metadata?.avatar && (
+      <header className="mb-12 text-center">
+        {author.metadata?.avatar && (
+          <div className="mb-6">
             <img 
               src={`${author.metadata.avatar.imgix_url}?w=200&h=200&fit=crop&auto=format,compress`}
               alt={author.metadata?.full_name}
-              className="w-24 h-24 rounded-full"
-              width={96}
-              height={96}
+              className="w-32 h-32 rounded-full mx-auto shadow-lg"
+              width={128}
+              height={128}
             />
-          )}
-          <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
-              {author.metadata?.full_name}
-            </h1>
-            {author.metadata?.bio && (
-              <p className="text-xl text-gray-600">
-                {author.metadata.bio}
-              </p>
-            )}
           </div>
-        </div>
+        )}
+        
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          {author.metadata?.full_name}
+        </h1>
+        
+        {author.metadata?.bio && (
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-6">
+            {author.metadata.bio}
+          </p>
+        )}
 
         {/* Social Links */}
-        <div className="flex gap-4">
+        <div className="flex justify-center gap-4">
           {author.metadata?.email && (
             <a 
               href={`mailto:${author.metadata.email}`}
-              className="text-gray-600 hover:text-gray-800"
+              className="text-gray-600 hover:text-blue-600 transition-colors"
             >
               Email
             </a>
@@ -92,7 +92,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
               href={`https://twitter.com/${author.metadata.twitter}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 hover:text-gray-800"
+              className="text-gray-600 hover:text-blue-600 transition-colors"
             >
               Twitter
             </a>
@@ -102,7 +102,7 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
               href={author.metadata.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-600 hover:text-gray-800"
+              className="text-gray-600 hover:text-blue-600 transition-colors"
             >
               LinkedIn
             </a>
@@ -112,13 +112,12 @@ export default async function AuthorPage({ params }: AuthorPageProps) {
 
       {/* Posts */}
       <section>
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">
-          Posts by {author.metadata?.full_name}
+        <h2 className="text-3xl font-bold text-gray-900 mb-8">
+          Articles by {author.metadata?.full_name}
         </h2>
-        
         {posts.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-600">No posts found from this author.</p>
+            <p className="text-gray-600">No posts found by this author.</p>
           </div>
         ) : (
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">

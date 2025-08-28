@@ -21,11 +21,11 @@ export default function CategoryFilter({ categories }: CategoryFilterProps) {
         href="/"
         className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
           pathname === '/' 
-            ? 'bg-red-600 text-white shadow-lg transform scale-105' 
+            ? 'bg-blue-600 text-white shadow-lg transform scale-105' 
             : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:shadow-md'
         }`}
       >
-        All Cars
+        All Articles
       </Link>
       
       {categories.map((category) => {
@@ -40,7 +40,7 @@ export default function CategoryFilter({ categories }: CategoryFilterProps) {
                 ? 'text-white shadow-lg transform scale-105' 
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:shadow-md'
             }`}
-            style={isActive ? { backgroundColor: category.metadata?.color || '#dc2626' } : {}}
+            style={isActive ? { backgroundColor: category.metadata?.color || '#3B82F6' } : {}}
           >
             {category.metadata?.name}
           </Link>

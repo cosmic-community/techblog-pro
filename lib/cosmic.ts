@@ -11,39 +11,39 @@ function hasStatus(error: unknown): error is { status: number } {
   return typeof error === 'object' && error !== null && 'status' in error;
 }
 
-// Get all cars with brand and category data
-export async function getAllCars() {
+// Get all posts with author and category data
+export async function getAllPosts() {
   try {
     const response = await cosmic.objects
-      .find({ type: 'cars' })
+      .find({ type: 'posts' })
       .props(['id', 'title', 'slug', 'metadata'])
       .depth(1);
     
-    // Sort by price (lowest first)
-    const cars = response.objects.sort((a: any, b: any) => {
-      const priceA = a.metadata?.price || 0;
-      const priceB = b.metadata?.price || 0;
-      return priceA - priceB;
+    // Sort by published date (newest first)
+    const posts = response.objects.sort((a: any, b: any) => {
+      const dateA = new Date(a.metadata?.published_date || '').getTime();
+      const dateB = new Date(b.metadata?.published_date || '').getTime();
+      return dateB - dateA;
     });
     
-    return cars;
+    return posts;
   } catch (error) {
     if (hasStatus(error) && error.status === 404) {
       return [];
     }
-    throw new Error('Failed to fetch cars');
+    throw new Error('Failed to fetch posts');
   }
 }
 
-// Get a single car by slug
-export async function getCar(slug: string) {
+// Get a single post by slug
+export async function getPost(slug: string) {
   try {
     const response = await cosmic.objects
       .findOne({
-        type: 'cars',
+        type: 'posts',
         slug: slug
       })
-      .props(['id', 'title', 'slug', 'metadata'])
+      .props(['id', 'title', 'slug', 'metadata', 'content'])
       .depth(1);
     
     return response.object;
@@ -51,7 +51,7 @@ export async function getCar(slug: string) {
     if (hasStatus(error) && error.status === 404) {
       return null;
     }
-    throw new Error('Failed to fetch car');
+    throw new Error('Failed to fetch post');
   }
 }
 
@@ -71,38 +71,38 @@ export async function getAllCategories() {
   }
 }
 
-// Get cars by category
-export async function getCarsByCategory(categoryId: string) {
+// Get posts by category
+export async function getPostsByCategory(categoryId: string) {
   try {
     const response = await cosmic.objects
       .find({
-        type: 'cars',
+        type: 'posts',
         'metadata.category': categoryId
       })
       .props(['id', 'title', 'slug', 'metadata'])
       .depth(1);
     
-    // Sort by price
-    const cars = response.objects.sort((a: any, b: any) => {
-      const priceA = a.metadata?.price || 0;
-      const priceB = b.metadata?.price || 0;
-      return priceA - priceB;
+    // Sort by published date (newest first)
+    const posts = response.objects.sort((a: any, b: any) => {
+      const dateA = new Date(a.metadata?.published_date || '').getTime();
+      const dateB = new Date(b.metadata?.published_date || '').getTime();
+      return dateB - dateA;
     });
     
-    return cars;
+    return posts;
   } catch (error) {
     if (hasStatus(error) && error.status === 404) {
       return [];
     }
-    throw new Error('Failed to fetch cars by category');
+    throw new Error('Failed to fetch posts by category');
   }
 }
 
-// Get all brands
-export async function getAllBrands() {
+// Get all authors
+export async function getAllAuthors() {
   try {
     const response = await cosmic.objects
-      .find({ type: 'brands' })
+      .find({ type: 'authors' })
       .props(['id', 'title', 'slug', 'metadata']);
     
     return response.objects;
@@ -110,43 +110,43 @@ export async function getAllBrands() {
     if (hasStatus(error) && error.status === 404) {
       return [];
     }
-    throw new Error('Failed to fetch brands');
+    throw new Error('Failed to fetch authors');
   }
 }
 
-// Get cars by brand
-export async function getCarsByBrand(brandId: string) {
+// Get posts by author
+export async function getPostsByAuthor(authorId: string) {
   try {
     const response = await cosmic.objects
       .find({
-        type: 'cars',
-        'metadata.brand': brandId
+        type: 'posts',
+        'metadata.author': authorId
       })
       .props(['id', 'title', 'slug', 'metadata'])
       .depth(1);
     
-    // Sort by price
-    const cars = response.objects.sort((a: any, b: any) => {
-      const priceA = a.metadata?.price || 0;
-      const priceB = b.metadata?.price || 0;
-      return priceA - priceB;
+    // Sort by published date (newest first)
+    const posts = response.objects.sort((a: any, b: any) => {
+      const dateA = new Date(a.metadata?.published_date || '').getTime();
+      const dateB = new Date(b.metadata?.published_date || '').getTime();
+      return dateB - dateA;
     });
     
-    return cars;
+    return posts;
   } catch (error) {
     if (hasStatus(error) && error.status === 404) {
       return [];
     }
-    throw new Error('Failed to fetch cars by brand');
+    throw new Error('Failed to fetch posts by author');
   }
 }
 
-// Get brand by slug
-export async function getBrand(slug: string) {
+// Get author by slug
+export async function getAuthor(slug: string) {
   try {
     const response = await cosmic.objects
       .findOne({
-        type: 'brands',
+        type: 'authors',
         slug: slug
       })
       .props(['id', 'title', 'slug', 'metadata']);
@@ -156,7 +156,7 @@ export async function getBrand(slug: string) {
     if (hasStatus(error) && error.status === 404) {
       return null;
     }
-    throw new Error('Failed to fetch brand');
+    throw new Error('Failed to fetch author');
   }
 }
 
@@ -177,4 +177,29 @@ export async function getCategory(slug: string) {
     }
     throw new Error('Failed to fetch category');
   }
+}
+
+// Legacy car functions for backward compatibility
+export async function getAllCars() {
+  return getAllPosts();
+}
+
+export async function getCar(slug: string) {
+  return getPost(slug);
+}
+
+export async function getCarsByCategory(categoryId: string) {
+  return getPostsByCategory(categoryId);
+}
+
+export async function getAllBrands() {
+  return getAllAuthors();
+}
+
+export async function getCarsByBrand(brandId: string) {
+  return getPostsByAuthor(brandId);
+}
+
+export async function getBrand(slug: string) {
+  return getAuthor(slug);
 }

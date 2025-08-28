@@ -10,7 +10,50 @@ interface CosmicObject {
   modified_at: string;
 }
 
-// Car brand object interface
+// Author object interface
+export interface Author extends CosmicObject {
+  type: 'authors';
+  metadata: {
+    full_name: string;
+    bio: string;
+    avatar?: {
+      url: string;
+      imgix_url: string;
+    };
+    email?: string | null;
+    twitter?: string | null;
+    linkedin?: string | null;
+  };
+}
+
+// Category object interface  
+export interface Category extends CosmicObject {
+  type: 'categories';
+  metadata: {
+    name: string;
+    description?: string;
+    color?: string;
+  };
+}
+
+// Post object interface
+export interface Post extends CosmicObject {
+  type: 'posts';
+  metadata: {
+    content: string;
+    excerpt: string;
+    featured_image?: {
+      url: string;
+      imgix_url: string;
+    };
+    author: Author;
+    category: Category;
+    tags?: string;
+    published_date: string;
+  };
+}
+
+// Legacy car interfaces for backward compatibility
 export interface Brand extends CosmicObject {
   type: 'brands';
   metadata: {
@@ -25,17 +68,6 @@ export interface Brand extends CosmicObject {
   };
 }
 
-// Car category object interface  
-export interface Category extends CosmicObject {
-  type: 'categories';
-  metadata: {
-    name: string;
-    description?: string;
-    color?: string;
-  };
-}
-
-// Car object interface
 export interface Car extends CosmicObject {
   type: 'cars';
   metadata: {
@@ -79,14 +111,22 @@ export interface CosmicResponse<T> {
 }
 
 // Type guards
+export function isPost(obj: CosmicObject): obj is Post {
+  return obj.type === 'posts';
+}
+
+export function isAuthor(obj: CosmicObject): obj is Author {
+  return obj.type === 'authors';
+}
+
+export function isCategory(obj: CosmicObject): obj is Category {
+  return obj.type === 'categories';
+}
+
 export function isCar(obj: CosmicObject): obj is Car {
   return obj.type === 'cars';
 }
 
 export function isBrand(obj: CosmicObject): obj is Brand {
   return obj.type === 'brands';
-}
-
-export function isCategory(obj: CosmicObject): obj is Category {
-  return obj.type === 'categories';
 }

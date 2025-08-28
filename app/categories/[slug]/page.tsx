@@ -1,9 +1,9 @@
 // app/categories/[slug]/page.tsx
-import { getCategory, getCarsByCategory, getAllCategories } from '@/lib/cosmic'
-import { Category, Car } from '@/types'
+import { getCategory, getPostsByCategory, getAllCategories } from '@/lib/cosmic'
+import { Category, Post } from '@/types'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import CarCard from '@/components/CarCard'
+import PostCard from '@/components/PostCard'
 
 interface CategoryPageProps {
   params: Promise<{ slug: string }>
@@ -28,8 +28,8 @@ export async function generateMetadata({ params }: CategoryPageProps) {
   }
 
   return {
-    title: `${category.metadata?.name} - Premium Motors`,
-    description: category.metadata?.description || `${category.metadata?.name} cars for sale`,
+    title: `${category.metadata?.name} - TechBlog Pro`,
+    description: category.metadata?.description || `${category.metadata?.name} articles`,
   }
 }
 
@@ -41,16 +41,16 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     notFound()
   }
 
-  const cars = await getCarsByCategory(category.id) as Car[]
+  const posts = await getPostsByCategory(category.id) as Post[]
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Back Link */}
       <Link 
         href="/" 
-        className="inline-flex items-center text-red-600 hover:text-red-800 mb-8 font-medium"
+        className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-8 font-medium"
       >
-        ← Back to Inventory
+        ← Back to Articles
       </Link>
 
       {/* Category Header */}
@@ -58,13 +58,13 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         <div className="flex items-center gap-3 mb-4">
           <span 
             className="px-6 py-3 rounded-full text-white font-medium shadow-lg"
-            style={{ backgroundColor: category.metadata?.color || '#dc2626' }}
+            style={{ backgroundColor: category.metadata?.color || '#3B82F6' }}
           >
             {category.metadata?.name}
           </span>
         </div>
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          {category.metadata?.name} Collection
+          {category.metadata?.name} Articles
         </h1>
         {category.metadata?.description && (
           <p className="text-xl text-gray-600">
@@ -73,16 +73,16 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         )}
       </header>
 
-      {/* Cars */}
+      {/* Posts */}
       <section>
-        {cars.length === 0 ? (
+        {posts.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-600">No cars found in this category.</p>
+            <p className="text-gray-600">No posts found in this category.</p>
           </div>
         ) : (
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {cars.map((car: Car) => (
-              <CarCard key={car.id} car={car} />
+            {posts.map((post: Post) => (
+              <PostCard key={post.id} post={post} />
             ))}
           </div>
         )}
